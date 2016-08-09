@@ -1,0 +1,121 @@
+import os
+import requests
+import json
+
+prod_key = '7c45bc07-f241-499d-acbd-7edaba145a58'
+champion_list = {}
+
+
+tResp = requests.get('https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion?api_key='+prod_key)
+if tResp.status_code != 200:
+    # This means something went wrong.
+    print('stop that right now')
+    print (tResp.status_code)
+#print (resp.json())
+data = json.dumps(tResp.json(), indent=2)
+load = json.loads(data)
+
+#------------------------------------------------------------------------------------------Get Champions-------------------------------------------------------------------------
+
+for key in load["data"]:
+    champ_info = load["data"][key]
+    champion_list[champ_info["name"]] = champ_info["id"]
+
+script_dir = os.path.dirname(__file__) #<-- absolute dir the script is in
+rel_patchlist_path = "patchlist.txt"
+abs_patchlist_path = os.path.join(script_dir, rel_patchlist_path)
+
+
+rel_patchdata_path = "patchdata/"
+abs_patchdata_path = os.path.join(script_dir, rel_patchdata_path)
+
+rel_finalpatchdata_path = "finalpatchdata/"
+abs_finalpatchdata_path = os.path.join(script_dir, rel_finalpatchdata_path)
+
+patch_type_list = {}
+patch_type_list['Number buff'] = 1
+patch_type_list['Number neutral'] = 2
+patch_type_list['Number nerf'] = 3
+patch_type_list['Utility buff'] = 4
+patch_type_list['Utility neutral'] = 5
+patch_type_list['Utility nerf'] = 6
+patch_type_list['QoL buff'] = 7
+patch_type_list['QoL neutral'] = 8
+patch_type_list['QoL nerf'] = 9
+patch_type_list['Bug fix'] = 10
+patch_type_list['Visual Update'] = 11
+patch_type_list['Released'] = 12
+
+patch_list = {}
+
+r = open(abs_patchlist_path, 'r')
+line = r.readline()
+while line:
+    line = line.replace('|', '')
+    line = line.replace(' ', '')
+    line = line.replace('\n', '')
+    split = line.find('V')
+    if split == -1:
+        split = line.find('A')
+    if split == -1:
+        split = line.find('M')
+    if split == -1:
+        split = line.find('J')
+    id = int(line[0:split])
+    patch = line[split:]
+    patch_list[patch] = id
+    line = r.readline()
+
+patch_note_list = os.listdir(abs_patchdata_path)
+
+for p in patch_note_list:
+    print(p)
+    rel_patch_path = p
+    abs_patch_path = os.path.join(abs_patchdata_path, rel_patch_path)
+    r = open(abs_patch_path, 'r')
+
+    rel_finalpatch_path = p
+    abs_finalpatch_path = os.path.join(abs_finalpatchdata_path, rel_finalpatch_path)
+    w = open(abs_finalpatch_path, 'w')
+
+    line = r.readline()
+    while line:
+        line = line.replace("\n", '')
+        split = line.find('\t')
+        patch_text = line[:split]#Patch text
+        patch_text = patch_text.replace('"', "'")
+        old = split
+
+        split = line.find('\t', split+1)
+        champ_id = champion_list[line[old+1:split]]
+        old = split
+
+        split = line.find('\t', split+1)
+        patch_type_id = line[old+1:split]
+        if patch_type_id == "released":
+            patch_type_id = "Released"
+        if patch_type_id == "Bug Fix":
+            patch_type_id = "Bug fix"
+        type_id = patch_type_list[patch_type_id] #Type ID
+
+        old = split
+
+        split = line.find('\t', split+1)
+        patch_type = line[old+1:]
+        print(patch_type)
+        patch_type = patch_type.replace(' ', '')
+        print(patch_type)
+        patch_id = patch_list.get(patch_type) #Patch ID
+        if patch_id:
+            w.write(patch_text)
+            w.write('$$$')
+            w.write(str(champ_id))
+            w.write('$$$')
+            w.write(str(patch_id))
+            w.write('$$$')
+            w.write(str(type_id))
+
+            w.write('\n')
+        line = r.readline()
+    r.close()
+    w.close()

@@ -1,0 +1,103 @@
+﻿body {
+    background: aliceblue;
+}
+
+a.button {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+
+    text-decoration: none;
+    color: initial;
+
+    float: left;
+
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+#graph {
+    background-color: #000000;
+    height: 600px;
+    width: 1000px;
+    float: right;
+
+}
+
+#BackButton {
+    padding-top: 10px;
+    padding-left: 45px;
+    padding-bottom: 20px;
+
+}
+
+#graph, #champ {
+    display: inline-block;
+}
+
+#champ {
+    padding-left: 50px;
+    height: 600px;
+    width: 250px;
+    float: left;
+}
+
+#graphArea {
+   float: left;
+   padding: 50px;
+   padding-top: 75px;
+   padding-left: 25px;
+   text-align: left;
+
+}
+
+#area {
+    padding-top: 750px;
+    padding-left: 50px;
+
+}
+
+#patchArea {
+    overflow: visible;
+    height: auto;
+    width: 95%;
+    float: left;
+    background-color: #000000;
+    padding: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+#patchNotes {
+    background-color: #ffffff;
+}
+
+p.patchText {
+    padding: 20px;
+}
+
+p.buttonText{
+    padding-bottom: 20px;
+    font-size: 1.5em;
+}
+
+.radioB{
+    padding-bottom: 20px;
+    font-size: 2em;
+}
+
+#buttonDiv1, #textDiv1 {
+    display: inline-block;
+}
+
+#buttonDiv2, #textDiv2 {
+    display: inline-block;
+}
+
+#buttonDiv3, #textDiv3 {
+    display: inline-block;
+}
+
+#formDiv{
+    float: left;
+}

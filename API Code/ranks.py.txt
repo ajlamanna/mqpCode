@@ -1,0 +1,67 @@
+import requests
+import os
+import random
+import json
+import sys
+import time
+
+class Match:
+
+    def __init__(self, match_id, losing_champs, winning_champs, timestamp):
+        self.match_id = match_id
+        self.losing_champs = losing_champs
+        self.winning_champs = winning_champs
+        self.timestamp = timestamp
+
+    def __eq__(self, other):
+        return self.match_id == other.match_id
+
+    def __ne__(self, other):
+        return self.match_id != other.match_id
+
+prod_key = '7c45bc07-f241-499d-acbd-7edaba145a58'
+
+match_list = []
+
+script_dir = os.path.dirname(__file__) #<-- absolute dir the script is in
+rel_matches_path = "matches.txt"
+abs_matches_path = os.path.join(script_dir, rel_matches_path)
+counter = 0
+m = 0
+ranks = {}
+ranks["BRONZE"] = 0
+ranks["SILVER"] = 0
+ranks["GOLD"] = 0
+ranks["PLATINUM"] = 0
+ranks["DIAMOND"] = 0
+ranks["OTHER"] = 0
+
+
+r = open(abs_matches_path, 'r')
+line = r.readline()
+line2 = r.readline()
+while line:
+    print(counter)
+    counter += 1
+    new_match = Match(int(line), [], [], int(line2))
+    match_list.append(new_match)
+    line = r.readline()
+    line2 = r.readline()
+    if random.randint(1,100) == 6:
+        time.sleep(0.01)
+        m += 1
+        tResp = requests.get('https://na.api.pvp.net/api/lol/na/v2.2/match/'+str(new_match.match_id)+'?api_key='+prod_key)
+        data = json.dumps(tResp.json(), indent=2)
+        load = json.loads(data)
+        if load.get("queueType") != "RANKED_SOLO_5x5":
+            continue
+        for k in ranks.keys():
+            if k == load["participants"][0]["highestAchievedSeasonTier"]:
+                print(load["participants"][0]["highestAchievedSeasonTier"])
+                print(k)
+                print("\n")
+                ranks[k] += 1
+                continue
+print(ranks)
+print(str(m))
+r.close()

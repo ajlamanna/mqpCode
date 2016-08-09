@@ -1,0 +1,116 @@
+﻿body {
+    width: 1920px;
+    height: 60%;
+    background-color: #f0f8ff;
+}
+
+tbody{
+  overflow: auto;
+  width: auto;
+  border-collapse: collapse;
+ 
+}
+
+#tableArea{
+  overflow: auto;
+  
+}
+
+table{
+ 
+}
+
+#patch {
+    text-align: center;
+}
+
+#titleEmblem {
+    text-align: center;
+}
+
+.champPic {
+    width: 110px;
+    padding-right: 10px;
+    padding-left: 5px;
+    text-align: center;
+}
+
+.name {
+    font-size: 1.15em;
+    padding-bottom: 50px;
+    text-align: center;
+    padding-left: 13px;
+}
+
+.area{
+  width: 110px;
+}
+
+#Tabs ul {
+  padding: 0px;
+  margin: 0px;
+  margin-left: 10px;
+  list-style-type: none;
+}
+
+#Tabs ul li {
+  display: inline-block;
+  clear: none;
+  float: left;
+  height: 24px;
+}
+
+#Tabs ul li a {
+  position: relative;
+  margin-top: 16px;
+  display: block;
+  margin-left: 6px;
+  line-height: 24px;
+  padding-left: 10px;
+  background: #f6f6f6;
+  z-index: 9999;
+  border: 1px solid #ccc;
+  border-bottom: 0px;
+
+
+  width: 130px;
+  color: #000000;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+#Tabs ul li a:hover {
+  text-decoration: underline;
+}
+
+#Tabs #Content_Area {
+padding: 0 15px;
+  clear:both;
+  overflow:hidden;
+  line-height:19px;
+  position: relative;
+  top: 20px;
+  z-index: 5;
+  height: 100%;
+  overflow: hidden;
+  
+
+}
+
+#tab1 {
+    background-color: aliceblue;
+    height: 99%;
+    width: 99%;
+    overflow: auto;
+    border-radius: 25px;
+    border: 2px solid black;
+}
+
+#tab2 {
+    background-color: aliceblue;
+    height: 99%;
+    width: 99%;
+    overflow: auto;
+    border-radius: 25px;
+    border: 2px solid black;
+}
